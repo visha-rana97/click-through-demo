@@ -1,0 +1,105 @@
+<div class="container p-5" style="background-color: #fff;">
+    <div class="grid">
+        <div class="col-12 lg:col-6 xl:col-6">
+            <h4>Validation Service</h4>
+        </div>
+    </div>
+
+    <div class="grid mt-5">
+        <div class="col-12 lg:col-2 xl:col-2">
+            <h6>Select Scheme</h6>
+            <div class="scheme-menu">
+                <ul>
+                    <li *ngFor="let menu of menuItems;let j = index">
+                        <p-checkbox [(ngModel)]="menu.isChecked" name="menu" [value]="menu.label"></p-checkbox>
+                        {{menu.label}}
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-12 lg:col-8 xl:col-8">
+            <div class="flex flex-column">
+                <h6>Select Message</h6>
+                <p-dropdown [options]="messages" [(ngModel)]="selectedMessage" optionLabel="name"></p-dropdown>
+            </div>
+            <div class="grid mt-5">
+                <div class="col-12 lg:col-6 xl:col-6">
+                    <p>Input the message to Validate</p>
+                    <div class="result">
+                        <ol>
+                            <li *ngFor="let file of files">
+                                <p-checkbox name="file" [value]="file.name" [(ngModel)]="selectedFiles"></p-checkbox>
+                                {{file.name}}
+                            </li>
+                        </ol>
+                    </div>
+
+                </div>
+                <div class="col-12 lg:col-6 xl:col-6">
+                    <p>Validation Result</p>
+                    <div class="result">
+                        <ol *ngFor="let data of result"> 
+                            <b>{{data.name}}</b>
+                            <p *ngIf="data.result.valid">No Errors</p>
+                            <li class="text-danger" *ngFor="let msg of data.result.messages">{{msg}}</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-12 lg:col-2 xl:col-2 flex justify-content-end">
+            <!-- <p-fileUpload mode="basic" chooseLabel="Bulk File Upload"></p-fileUpload> -->
+            <p-fileUpload #form
+                name="myfile[]"
+                chooseLabel="Bulk File Upload"
+                multiple="multiple"
+                customUpload="true"
+                [auto]="true"
+                mode="basic"
+                accept="text/xml" 
+                (uploadHandler)="selectFiles($event, form)"
+                ></p-fileUpload>
+        </div>
+
+        <div class="col-12 lg:col-12 xl:col-12 mt-5 flex justify-content-center">
+            <p-button label="Click To Validate" class="mr-3" (click)="validateFiles()"></p-button>
+        </div>
+    </div>
+</div>
+
+<p-dialog header="" [(visible)]="display" [style]="{width: '40vw'}" [modal]="true">
+    <div class="grid">
+        <div class="col-12 lg:col-6 xl:col-6">
+            <p>Schema Validation</p>
+            <div class="card mb-0">
+                <div class="flex justify-content-center align-items-center mb-3">
+                    <p>No Issues Found</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 lg:col-6 xl:col-6">
+            <p>Business Rules Validation</p>
+            <div class="card mb-0">
+                <div class="flex justify-content-between">
+                    <p>Level 1 errors (ISO)</p>
+                    <span>
+                        <i class="pi pi-eye"></i>
+                        <i class="pi pi-download ml-2"></i>
+                    </span>
+                </div>
+                <div class="card">
+                    <p>asd asdas dasdasda sdasdas dasd asdfjhnask dfnas fasiufhaskd asmfnasui ndkdfnasuidf hnasdf asjkdh
+                        as8udf</p>
+                </div>
+            </div>
+            <div class="card mb-0">
+                <p>Level 2 errors (Bank Business Rules)</p>
+                <div class="card">
+                    <p>asd asdas dasdasda sdasdas dasd asdfjhnask dfnas fasiufhaskd asmfnasui ndkdfnasuidf hnasdf asjkdh
+                        as8udf</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</p-dialog>

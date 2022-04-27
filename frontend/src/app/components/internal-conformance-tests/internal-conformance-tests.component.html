@@ -1,0 +1,146 @@
+<div class="container p-5" style="background-color: #fff;">
+    <div class="grid">
+        <div class="col-12 lg:col-12 xl:col-12">
+            <div class="flex justify-content-between">
+                <h4>Internal Conformance Test</h4>
+                <p-steps [model]="steps" [readonly]="false"  [(activeIndex)]="activeStep" style="width: 300px;"></p-steps>
+            </div>
+            <p>To ensure interoperability of ISO 20022 messages between internal systems you are tasked to run a series
+                of tests. </p>
+            <p>* Kindly ensure the required partner systems are connected to the application</p>
+        </div>
+    </div>
+
+    <div class="grid mt-5">
+        <div class="col-12 lg:col-4 xl:col-4">
+            <h6>Select Application</h6>
+            <div class="scheme-menu">
+                <ul>
+                    <li *ngFor="let app of applications;let j = index">
+                        <p-checkbox [(ngModel)]="app.isChecked" name="app" [value]="app.label"></p-checkbox>
+                        {{app.label}}
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-12 lg:col-4 xl:col-4">
+            <h6>Select Scheme</h6>
+            <div class="scheme-menu">
+                <ul>
+                    <li *ngFor="let sc of schemes;let j = index">
+                        <p-checkbox [(ngModel)]="sc.isChecked" name="sc" [value]="sc.label"></p-checkbox>
+                        {{sc.label}}
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-12 lg:col-4 xl:col-4 flex">
+            <div class="flex flex-column">
+                <h6>Select Message</h6>
+                <p-dropdown [options]="messages" optionLabel="name" [(ngModel)]="selectedScheme"></p-dropdown>
+            </div>
+        </div>
+
+        <div class="col-12 lg:col-12 xl:col-12 mt-5">
+            <p class="mt-5">* Kindly ensure the required partner systems are connected to the application</p>
+        </div>
+
+        <ng-container *ngIf="activeStep == 0">
+            <div class="col-12 lg:col-5 xl:col-5 mt-3">
+                <div class="validations">
+                    <h5>Select Elements</h5>
+    
+                    <div *ngFor="let li of list;let i = index">
+                        <span class="list-item" (click)="toggleList(i)">
+                            <i class="pi" [ngClass]="li.show ? 'pi-chevron-down' : 'pi-chevron-right'"></i>
+                            <p>{{li.header}}</p>
+                        </span>
+                        <ng-container *ngIf="li.show">
+                            <div style="margin-left: 20px;" *ngFor="let ch of li.child;let j = index">
+                                <span class="list-item" (click)="toggleList(i,j)">
+                                    <i class="pi" [ngClass]="ch.show ? 'pi-chevron-down' : 'pi-chevron-right'"></i>
+                                    <p>{{ch.header}}</p>
+                                </span>
+                                <ng-container *ngIf="ch.show">
+                                    <div class="flex" style="margin-left: 20px;" *ngFor="let gc of ch.child;let k = index">
+                                        <p-checkbox [name]="gc.header" [value]="gc.name"></p-checkbox>
+                                        <span class="list-item" (click)="toggleList(i,j,k)">
+                                            <i class="pi" [ngClass]="gc.show ? 'pi-chevron-down' : 'pi-chevron-right'"></i>
+                                            <p>{{gc.header}}</p>
+                                        </span>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 lg:col-5 xl:col-5 mt-3">
+                <div class="validations">
+                    <h5>Business Rules</h5>
+    
+                    <p-table responsiveLayout="scroll" [value]="businessValidations">
+                        <ng-template pTemplate="body" let-validation let-columns="columns">
+                            <tr>
+                                <td>{{validation.name}}</td>
+                                <td>
+                                    <p-checkbox [name]="validation.name" [value]="validation.name"
+                                        [(ngModel)]="validation.isSelected"></p-checkbox>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+
+        </ng-container>
+
+        <!-- step 2 content starts here -->
+        <div class="col-12 lg:col-12 xl:col-12 mt-3" *ngIf="activeStep != 0">
+            <div class="validations">
+                <p-table responsiveLayout="scroll" [value]="testCases">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Test Case #</th>
+                            <th>Description</th>
+                            <th>Schema validation</th>
+                            <th>Biz rules validation</th>
+                            <th *ngIf="activeStep == 2 || activeStep == 3">Test Data</th>
+                            <th *ngIf="activeStep == 3">Execute</th>
+                            <!-- <th *ngIf="activeStep == 2">Result</th> -->
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-case let-columns="columns">
+                        <tr>
+                            <td>{{case.name}}</td>
+                            <td>{{case.desc}}</td>
+                            <td>
+                                <p-checkbox [name]="case.name" [value]="case.name"
+                                    [(ngModel)]="case.schemaValidation"></p-checkbox>
+                            </td>
+                            <td>
+                                <p-checkbox [name]="case.name" [value]="case.name"
+                                    [(ngModel)]="case.bizRulesValidation"></p-checkbox>
+                            </td>
+                            <td *ngIf="activeStep == 2 || activeStep == 3">
+                                <i class="pi pi-spin pi-spinner" style="font-size: 1rem" *ngIf="!case.testData"></i>
+                                <i class="pi pi-check" style="font-size: 1rem" *ngIf="case.testData"></i>
+
+                            </td>
+                            <td *ngIf="activeStep == 3">
+                                <i class="pi pi-spin pi-spinner" style="font-size: 1rem" *ngIf="!case.status"></i>
+                                <i class="pi pi-check" style="font-size: 1rem" *ngIf="case.status"></i>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+
+        <div class="col-12 lg:col-12 xl:col-12 mt-5 flex justify-content-end">
+            <p-button label="Next" class="mr-3" (click)="next()" *ngIf="activeStep != 3"></p-button>
+            <p-button label="Click To Validate" class="mr-3" (click)="validate()" *ngIf="activeStep == 3"></p-button>
+        </div>
+
+    </div>
+</div>

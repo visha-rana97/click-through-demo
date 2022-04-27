@@ -1,0 +1,17 @@
+::ng-deep .p-checkbox-box {
+    width: 18px !important;
+    height: 18px !important;
+    margin-right: 5px;
+}
+
+.result{
+    min-height:300px;
+    border:1px solid #00000033;
+    ol{
+        // font-size: 11px;
+        li{
+            padding: 8px;
+        }
+    }
+}
+

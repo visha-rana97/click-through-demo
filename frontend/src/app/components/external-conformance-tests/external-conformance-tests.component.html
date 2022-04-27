@@ -1,0 +1,55 @@
+<div class="container p-5" style="background-color: #fff;">
+    <div class="grid">
+        <div class="col-12 lg:col-12 xl:col-12">
+            <h4>External Conformance Test</h4>
+            <p>To ensure interoperability of ISO 20022 messages between internal systems and your correspondent you are tasked to run a series of tests. </p>
+        </div>
+    </div>
+
+    <div class="grid mt-5">
+        <div class="col-12 lg:col-6 xl:col-6">
+            <h6>Select BIC</h6>
+            <div class="scheme-menu">
+                <ul>
+                    <li *ngFor="let item of bic;let j = index">
+                        <p-checkbox [(ngModel)]="item.isChecked" name="item" [value]="item.label"></p-checkbox>
+                        {{item.label}}
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-12 lg:col-6 xl:col-6">
+            <h6>Select Application</h6>
+            <div class="scheme-menu">
+                <ul>
+                    <li *ngFor="let app of applications;let j = index">
+                        <p-checkbox [(ngModel)]="app.isChecked" name="app" [value]="app.label"></p-checkbox>
+                        {{app.label}}
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-12 lg:col-6 xl:col-6 mt-5">
+            <h6>Select Scheme</h6>
+            <div class="scheme-menu">
+                <ul>
+                    <li *ngFor="let sc of schemes;let j = index">
+                        <p-checkbox [(ngModel)]="sc.isChecked" name="sc" [value]="sc.label"></p-checkbox>
+                        {{sc.label}}
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-12 lg:col-6 xl:col-6 mt-5">
+            <div class="flex flex-column">
+                <h6>Select Message</h6>
+                <p-dropdown [options]="messages" optionLabel="name" [(ngModel)]="selectedScheme"></p-dropdown>
+            </div>
+        </div>
+
+        <div class="col-12 lg:col-12 xl:col-12 mt-5">
+            <p-steps [model]="steps" [readonly]="false"></p-steps>
+            <p class="mt-5">* Kindly ensure the required partner systems are connected to the application and correspondent bank is informed</p>
+        </div>
+    </div>
+</div>

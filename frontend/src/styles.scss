@@ -1,0 +1,50 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "../node_modules/primeng/resources/primeng.min.css";
+@import "../node_modules/primeflex/primeflex.scss";
+@import "../node_modules/primeicons/primeicons.css";
+@import "../node_modules/prismjs/themes/prism-coy.css";
+@import "assets/sass/layout/_variables";
+@import "assets/sass/layout/_layout";
+
+.list-item{
+    display: flex;
+    align-items: center;
+    padding: 5px;
+}
+.validations {
+    padding: 20px;
+}
+.right-nav {
+    border-left: 1px solid black;
+    height: 100%;
+    position: absolute;
+    width: 150px;
+    right: 0px;
+}
+.standard-schemes{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.scheme-menu{
+    padding: 0.25rem 1rem;
+    background: #ffffff;
+    color: #495057;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    width: 15rem;
+    ul{
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        li{
+            padding: 5px;
+            cursor: pointer;
+            display: flex;
+        }
+        li:hover{
+            background-color: #b2c1cf3b;
+        }
+    }
+}
